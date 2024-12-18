@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker</title>
+  </head>
+  <body onload="getdata()">
+    <select name="" id="filter" onchange="getFilterData()">
+      <option value="All">All</option>
+      <option value="Food">Food</option>
+      <option value="Transport">Transport</option>
+      <option value="Household">Household</option>
+    </select>
+    <h1>Expense Tracker</h1>
+    <br />
+    <input type="number" placeholder="Amount" id="amount" /><br />
+    <input type="text" placeholder="Description" id="des" /><br />
+    <select name="" id="category">
+      <option value="" disabled selected>--Select--</option>
+      <option value="Food">Food</option>
+      <option value="Transport">Transport</option>
+      <option value="Household">Household</option>
+    </select>
+    <br />
+    <button onclick="addData()">Add</button>
+    <button onclick="clearData()">Clear All Data</button>
+    <div id="wrapper"></div>
+    <div id="total"></div>
+
+    <script>
+      let flag = "All";
+      let expenses = [];
+
+      function addData() {
+        const a = document.getElementById("amount").value;
+        const d = document.getElementById("des").value;
+        const c = document.getElementById("category").value;
+
+        if (a === "" || d === "" || c === "") {
+          alert("Please fill in all fields.");
+          return;
+        }
+
+        const obj = {
+          amount: a,
+          des: d,
+          category: c,
+        };
+
+        expenses.push(obj);
+        localStorage.setItem("mylist", JSON.stringify(expenses));
+        getdata();
+        document.getElementById("amount").value = "";
+        document.getElementById("des").value = "";
+        document.getElementById("category").value = "";
+      }
+
+      function getdata() {
+        const x = localStorage.getItem("mylist");
+        expenses = x ? JSON.parse(x) : [];
+        getFilterData();
+      }
+
+      function getFilterData() {
+        flag = document.getElementById("filter").value;
+        let filteredExpenses = [];
+
+        if (flag === "All") {
+          filteredExpenses = expenses;
+        } else {
+          filteredExpenses = expenses.filter(
+            (expense) => expense.category === flag
+          );
+        }
+
+        let temp = "";
+        let totalSum = 0;
+
+        temp += "<ul>";
+        filteredExpenses.forEach((expense) => {
+          temp += `<li>${expense.amount} -- ${expense.des} -- ${expense.category}</li>`;
+          totalSum += parseFloat(expense.amount);
+        });
+        temp += "</ul>";
+
+        document.getElementById("wrapper").innerHTML = temp;
+        calculate(totalSum);
+      }
+
+      function calculate(totalSum) {
+        document.getElementById("total").innerHTML = `Total: ${totalSum}`;
+      }
+
+      function clearData() {
+        localStorage.removeItem("mylist");
+        expenses = [];
+        getdata(); // Refresh the displayed data
+      }
+    </script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+
+      select,
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      button {
+        background-color: #28a745;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 48%;
+        margin: 5px 1%;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background-color: #218838;
+      }
+
+      #wrapper {
+        background-color: white;
+        padding: 15px;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+      }
+
+      #total {
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      li {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      li:last-child {
+        border-bottom: none;
+      }
+    </style>
+  </body>
+</html>
