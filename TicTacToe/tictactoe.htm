@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <script>
+      var player1 = prompt("Enter player1's name:");
+      var player2 = prompt("Enter player2's name:");
+    </script> -->
+    <div class="container">
+      <button class="all" onclick="fun(0)"></button>
+      <button class="all" onclick="fun(1)"></button>
+      <button class="all" onclick="fun(2)"></button>
+      <br />
+      <button class="all" onclick="fun(3)"></button>
+      <button class="all" onclick="fun(4)"></button>
+      <button class="all" onclick="fun(5)"></button>
+      <br />
+      <button class="all" onclick="fun(6)"></button>
+      <button class="all" onclick="fun(7)"></button>
+      <button class="all" onclick="fun(8)"></button>
+
+      <br />
+      <br />
+      <button class="reset" onclick="resetit()">Reset</button>
+      <br />
+      <!-- <button class="cn" onclick="changename()">Change Players</button> -->
+    </div>
+  </body>
+</html>
+
+<style>
+  body {
+    background-color: #f0f0f0;
+  }
+
+  .container {
+    width: 300px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .all {
+    width: 40px;
+    height: 40px;
+    margin: 4px;
+    vertical-align: top;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .reset {
+    width: 100%;
+    height: 40px;
+    margin-top: 20px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .reset:hover {
+    background-color: #3e8e41;
+  }
+</style>
+
+<script>
+  selected = "0";
+  c = 0;
+  function fun(i) {
+    c++;
+    arr = document.getElementsByClassName("all");
+    if (selected == 0) {
+      arr[i].innerText = "X";
+      selected = "X";
+    } else {
+      arr[i].innerText = "0";
+      selected = "0";
+    }
+    arr[i].disabled = "true";
+
+    if (
+      (arr[0].innerText == "X" &&
+        arr[1].innerText == "X" &&
+        arr[2].innerText == "X") ||
+      (arr[3].innerText == "X" &&
+        arr[4].innerText == "X" &&
+        arr[5].innerText == "X") ||
+      (arr[6].innerText == "X" &&
+        arr[7].innerText == "X" &&
+        arr[8].innerText == "X") ||
+      (arr[0].innerText == "X" &&
+        arr[3].innerText == "X" &&
+        arr[6].innerText == "X") ||
+      (arr[1].innerText == "X" &&
+        arr[4].innerText == "X" &&
+        arr[7].innerText == "X") ||
+      (arr[2].innerText == "X" &&
+        arr[5].innerText == "X" &&
+        arr[8].innerText == "X") ||
+      (arr[0].innerText == "X" &&
+        arr[4].innerText == "X" &&
+        arr[8].innerText == "X") ||
+      (arr[2].innerText == "X" &&
+        arr[4].innerText == "X" &&
+        arr[6].innerText == "X")
+    ) {
+      alert("player2  is the loser!");
+    } else if (
+      (arr[0].innerText == "0" &&
+        arr[1].innerText == "0" &&
+        arr[2].innerText == "0") ||
+      (arr[3].innerText == "0" &&
+        arr[4].innerText == "0" &&
+        arr[5].innerText == "0") ||
+      (arr[6].innerText == "0" &&
+        arr[7].innerText == "0" &&
+        arr[8].innerText == "0") ||
+      (arr[0].innerText == "0" &&
+        arr[3].innerText == "0" &&
+        arr[6].innerText == "0") ||
+      (arr[1].innerText == "0" &&
+        arr[4].innerText == "0" &&
+        arr[7].innerText == "0") ||
+      (arr[2].innerText == "0" &&
+        arr[5].innerText == "0" &&
+        arr[8].innerText == "0") ||
+      (arr[0].innerText == "0" &&
+        arr[4].innerText == "0" &&
+        arr[8].innerText == "0") ||
+      (arr[2].innerText == "0" &&
+        arr[4].innerText == "0" &&
+        arr[6].innerText == "0")
+    ) {
+      alert("player1 is the loser!");
+    } else if (c == 9) {
+      alert("Both players are losers!");
+    }
+  }
+  function resetit() {
+    for (i = 0; i < 9; i++) {
+      arr[i].innerText = "";
+      arr[i].disabled = "";
+    }
+    selected = "0";
+    c = 0;
+  }
+  // function changename() {
+  //   var player1 = prompt("Enter player1's name:");
+  //   var player2 = prompt("Enter player2's name:");
+  // }
+</script>
