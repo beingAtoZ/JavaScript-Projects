@@ -5,71 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo List App</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-      }
-      h1 {
-        text-align: center;
-        color: #333;
-      }
-      .wrapper {
-        background-color: #fff;
-        padding: 20px;
-        width: 40%;
-        margin: 50px auto;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      }
-      input[type="text"] {
-        width: calc(100% - 22px);
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        margin-bottom: 10px;
-      }
-      button {
-        padding: 10px 15px;
-        background-color: #28a745;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
-      button:hover {
-        background-color: #218838;
-      }
-      ul {
-        list-style: none;
-        padding: 0;
-      }
-      ul > li {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-      }
-      .completed {
-        text-decoration: line-through;
-        color: grey;
-      }
-      .delete-btn {
-        background-color: #dc3545;
-        padding: 5px 10px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        color: white;
-      }
-      .delete-btn:hover {
-        background-color: #c82333;
-      }
-    </style>
+    <link rel="stylesheet" href="todo.css" />
   </head>
   <body>
     <div class="wrapper">
@@ -79,49 +15,6 @@
       <ul id="all"></ul>
     </div>
 
-    <script>
-      let myTodoList = JSON.parse(localStorage.getItem("mylist")) || [];
-
-      function addTodo() {
-        const todoName = document.getElementById("name").value.trim();
-        if (todoName === "") {
-          alert("Please enter a todo name.");
-          return;
-        }
-        const newTodo = { name: todoName, isComplete: false };
-        myTodoList.push(newTodo);
-        localStorage.setItem("mylist", JSON.stringify(myTodoList));
-        document.getElementById("name").value = "";
-        renderTodos();
-      }
-
-      function renderTodos() {
-        const todoListElement = document.getElementById("all");
-        todoListElement.innerHTML = ""; // Clear existing todos
-        myTodoList.forEach((todo, index) => {
-          const li = document.createElement("li");
-          li.innerHTML = `
-                    <span class="${
-                      todo.isComplete ? "completed" : ""
-                    }" onclick="toggleComplete(${index})">${todo.name}</span>
-                    <button class="delete-btn" onclick="deleteTodo(${index})">Delete</button>
-                `;
-          todoListElement.appendChild(li);
-        });
-      }
-
-      function toggleComplete(index) {
-        myTodoList[index].isComplete = !myTodoList[index].isComplete;
-        localStorage.setItem("mylist", JSON.stringify(myTodoList));
-        renderTodos();
-      }
-
-      function deleteTodo(index) {
-        myTodoList.splice(index, 1);
-        localStorage.setItem("mylist", JSON.stringify(myTodoList));
-        renderTodos();
-      }
-      renderTodos();
-    </script>
+    <script src="todo.js"></script>
   </body>
 </html>
