@@ -7,10 +7,10 @@
         "Oi! Enter a maximum number, and make sure it's actually a number:"
       )
     );
-    if (!maximumNum) {
-      // if the user inputs an invalid choice, the value of maximumNum would be falsy.
-      alert(
-        "Are you dense? I said a NUMBER, not whatever nonsense you just typed!"
+   if (!maximumNum || isNaN(maximumNum)) {
+      // if the user inputs an invalid choice, the value of maximumNum would be false.
+      maximumNum = parseInt(
+        prompt("Are you dense? I said a NUMBER! Try again")
       );
     } else {
       let chosenNum = Math.floor(Math.random() * maximumNum + 1);
