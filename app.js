@@ -11,7 +11,8 @@ let winningScore = 5;
 let isGameOver = false;
 let gameTracker = 0;
 
-function handlePlayer1Click() {
+function handlePlayer1Click(e) {
+  e.preventDefault();
   if (!isGameOver) {
     p1Score++;
     gamePointCheck();
@@ -26,7 +27,8 @@ function handlePlayer1Click() {
   }
 }
 
-function handlePlayer2Click() {
+function handlePlayer2Click(e) {
+  e.preventDefault();
   if (!isGameOver) {
     p2Score++;
     gamePointCheck();
@@ -61,8 +63,13 @@ winningScoreSelect.addEventListener("change", function () {
   reset();
 });
 
-resetIt.addEventListener("click", reset);
-resetIt.addEventListener("touchstart", reset);
+function handleReset(e) {
+  e.preventDefault();
+  reset();
+}
+
+resetIt.addEventListener("click", handleReset);
+resetIt.addEventListener("touchstart", handleReset);
 
 function reset() {
   p1Display.textContent = 0;
