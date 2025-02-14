@@ -10,7 +10,8 @@ let p2Score = 0;
 let winningScore = 5;
 let isGameOver = false;
 let gameTracker = 0;
-p1Button.addEventListener("click", () => {
+
+function handlePlayer1Click() {
   if (!isGameOver) {
     p1Score++;
     gamePointCheck();
@@ -23,9 +24,9 @@ p1Button.addEventListener("click", () => {
       p2Button.disabled = true;
     }
   }
-});
+}
 
-p2Button.addEventListener("click", () => {
+function handlePlayer2Click() {
   if (!isGameOver) {
     p2Score++;
     gamePointCheck();
@@ -38,7 +39,14 @@ p2Button.addEventListener("click", () => {
       p2Button.disabled = true;
     }
   }
-});
+}
+
+p1Button.addEventListener("click", handlePlayer1Click);
+p1Button.addEventListener("touchstart", handlePlayer1Click);
+
+p2Button.addEventListener("click", handlePlayer2Click);
+p2Button.addEventListener("touchstart", handlePlayer2Click);
+
 function gamePointCheck() {
   if (p1Score == winningScore - 1 && p2Score == winningScore - 1) {
     if (gameTracker < 2) {
@@ -49,11 +57,13 @@ function gamePointCheck() {
 }
 
 winningScoreSelect.addEventListener("change", function () {
-  // this behaves differently in an arrow function....
   winningScore = parseInt(this.value);
   reset();
 });
+
 resetIt.addEventListener("click", reset);
+resetIt.addEventListener("touchstart", reset);
+
 function reset() {
   p1Display.textContent = 0;
   p2Display.textContent = 0;
