@@ -7,7 +7,8 @@ const winningScoreSelect = document.querySelector("#playto");
 
 let p1Score = 0;
 let p2Score = 0;
-let winningScore = 5;
+let baseWinningScore = 5; // Store original winning score
+let winningScore = baseWinningScore;
 let isGameOver = false;
 let gameTracker = 0;
 
@@ -34,18 +35,21 @@ p2Button.addEventListener("click", (e) => {
 function gamePointCheck() {
   if (p1Score === winningScore - 1 && p2Score === winningScore - 1) {
     if (gameTracker < 2) {
-      winningScore++;
-      gameTracker++;
+      winningScore++; // Extend the game
+      gameTracker++;  // Track tie-breaks
     }
   }
 }
 
 function checkWinner() {
-  if (p1Score === winningScore || p2Score === winningScore) {
+  if (p1Score >= winningScore || p2Score >= winningScore) {
+    if (p1Score === p2Score) {
+      return; // Don't end the game if it's still tied
+    }
     isGameOver = true;
     p1Button.disabled = true;
     p2Button.disabled = true;
-    if (p1Score === winningScore) {
+    if (p1Score > p2Score) {
       p1Display.classList.add("has-text-success");
       p2Display.classList.add("has-text-danger");
     } else {
@@ -56,19 +60,20 @@ function checkWinner() {
 }
 
 winningScoreSelect.addEventListener("change", function () {
-  winningScore = parseInt(this.value);
+  baseWinningScore = parseInt(this.value);
   reset();
 });
 
 resetIt.addEventListener("click", reset);
 
 function reset() {
-  p1Display.textContent = 0;
-  p2Display.textContent = 0;
   p1Score = 0;
   p2Score = 0;
+  winningScore = baseWinningScore; // Reset to original winning score
   isGameOver = false;
   gameTracker = 0;
+  p1Display.textContent = 0;
+  p2Display.textContent = 0;
   p1Display.classList.remove("has-text-success", "has-text-danger");
   p2Display.classList.remove("has-text-success", "has-text-danger");
   p1Button.disabled = false;
