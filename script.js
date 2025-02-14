@@ -1,58 +1,67 @@
+const p1Button = document.querySelector("#p1Button");
+const p2Button = document.querySelector("#p2Button");
+const resetIt = document.querySelector("#reset");
+const p1Display = document.querySelector("#p1Display");
+const p2Display = document.querySelector("#p2Display");
+const winningScoreSelect = document.querySelector("#playto");
 
-  alert("Welcome to the Guessing Game, Dumb Edition!");
-  alert("Enter q to surrender!");
-
-  while (true) {
-    let maximumNum = prompt(
-      "Oi! Enter a maximum number, and make sure it's actually a number:"
-    );
-
-    if (maximumNum === null) {
-      alert("Coward! You canceled the game.");
-      break;
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 5;
+let isGameOver = false;
+let gameTracker = 0;
+p1Button.addEventListener("click", () => {
+  if (!isGameOver) {
+    p1Score++;
+    gamePointCheck();
+    p1Display.textContent = p1Score;
+    if (p1Score === winningScore) {
+      p1Display.classList.add("has-text-success");
+      p2Display.classList.add("has-text-danger");
+      isGameOver = true;
+      p1Button.disabled = true;
+      p2Button.disabled = true;
     }
-
-    maximumNum = parseInt(maximumNum);
-
-    while (!maximumNum || isNaN(maximumNum)) {
-      maximumNum = prompt("Are you dense? I said a NUMBER! Try again.");
-
-      if (maximumNum === null) {
-        alert("Coward! You canceled the game.");
-        break;
-      }
-
-      maximumNum = parseInt(maximumNum);
-    }
-
-    let chosenNum = Math.floor(Math.random() * maximumNum + 1);
-    let guess = prompt("Take a wild guess (try not to embarrass yourself):");
-    let counter = 1;
-
-    while (true) {
-      if (guess === null || guess.toLowerCase() === "q") {
-        alert("Quit already? LOSER!");
-        break;
-      }
-
-      let numGuess = parseInt(guess);
-
-      if (isNaN(numGuess)) {
-        alert("Wow, how dumb can a person be? A NUMBER!");
-      } else if (numGuess < chosenNum) {
-        alert("Wow, that's pathetic. Try thinking bigger, genius.");
-        counter++;
-      } else if (numGuess > chosenNum) {
-        alert("Whoa, slow down there Einstein, go lower.");
-        counter++;
-      } else {
-        alert(
-          `Finally! Took you ${counter} tries to get it right. Took you long enough.`
-        );
-        break;
-      }
-
-      guess = prompt("Guess again, if your tiny brain can handle it:");
-    }
-    break;
   }
+});
+
+p2Button.addEventListener("click", () => {
+  if (!isGameOver) {
+    p2Score++;
+    gamePointCheck();
+    p2Display.textContent = p2Score;
+    if (p2Score === winningScore) {
+      p2Display.classList.add("has-text-success");
+      p1Display.classList.add("has-text-danger");
+      isGameOver = true;
+      p1Button.disabled = true;
+      p2Button.disabled = true;
+    }
+  }
+});
+function gamePointCheck() {
+  if (p1Score == winningScore - 1 && p2Score == winningScore - 1) {
+    if (gameTracker < 2) {
+      winningScore++;
+      gameTracker++;
+    }
+  }
+}
+
+winningScoreSelect.addEventListener("change", function () {
+  // this behaves differently in an arrow function....
+  winningScore = parseInt(this.value);
+  reset();
+});
+resetIt.addEventListener("click", reset);
+function reset() {
+  p1Display.textContent = 0;
+  p2Display.textContent = 0;
+  p1Score = 0;
+  p2Score = 0;
+  isGameOver = false;
+  p1Display.classList.remove("has-text-success", "has-text-danger");
+  p2Display.classList.remove("has-text-success", "has-text-danger");
+  p1Button.disabled = false;
+  p2Button.disabled = false;
+}
